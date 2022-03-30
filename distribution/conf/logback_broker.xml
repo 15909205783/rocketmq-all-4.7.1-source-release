@@ -17,6 +17,7 @@
   -->
 
 <configuration>
+    <property name="user.home" value="C:\commonApps\rocketmq"/>
     <appender name="DefaultAppender"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${user.home}/logs/rocketmqlogs/broker_default.log</file>
