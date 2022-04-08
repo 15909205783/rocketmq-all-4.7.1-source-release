@@ -351,14 +351,17 @@ public class MappedFile extends ReferenceResource {
     }
 
     protected boolean isAbleToCommit(final int commitLeastPages) {
+        //已经刷盘指针
         int flush = this.committedPosition.get();
+        //文件写指针
         int write = this.wrotePosition.get();
-
+        //写满刷盘
         if (this.isFull()) {
             return true;
         }
 
         if (commitLeastPages > 0) {
+            //文件内容达到commitLeastPages页数，则刷盘
             return ((write / OS_PAGE_SIZE) - (flush / OS_PAGE_SIZE)) >= commitLeastPages;
         }
 
