@@ -503,6 +503,7 @@ public class DefaultMessageStore implements MessageStore {
 
     @Override
     public PutMessageResult putMessages(MessageExtBatch messageExtBatch) {
+        //消息存储：1
         PutMessageStatus checkStoreStatus = this.checkStoreStatus();
         if (checkStoreStatus != PutMessageStatus.PUT_OK) {
             return new PutMessageResult(checkStoreStatus, null);
@@ -514,6 +515,7 @@ public class DefaultMessageStore implements MessageStore {
         }
 
         long beginTime = this.getSystemClock().now();
+        //消息存储：2、commiteLog入口
         PutMessageResult result = this.commitLog.putMessages(messageExtBatch);
         long elapsedTime = this.getSystemClock().now() - beginTime;
         if (elapsedTime > 500) {

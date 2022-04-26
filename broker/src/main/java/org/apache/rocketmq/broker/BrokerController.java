@@ -259,7 +259,7 @@ public class BrokerController {
                 log.error("Failed to initialize", e);
             }
         }
-
+        //ji
         result = result && this.messageStore.load();
 
         if (result) {

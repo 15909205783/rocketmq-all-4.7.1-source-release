@@ -89,9 +89,13 @@ public class PullMessageService extends ServiceThread {
     @Override
     public void run() {
         log.info(this.getServiceName() + " service started");
-
+        // stopped 声明为 volatile
+        // 每执行一次业务逻辑检测一下其运行状态，
+        // 可以通过其他线程将stopped设置为true从而停止该线程。
         while (!this.isStopped()) {
             try {
+                // 从pullRequestQueue中获取一个PullRequest消息拉取任务，
+                // 如果pullRequest Queue为空，则线程将阻塞，直到有拉取任务被放入。
                 PullRequest pullRequest = this.pullRequestQueue.take();
                 this.pullMessage(pullRequest);
             } catch (InterruptedException ignored) {
