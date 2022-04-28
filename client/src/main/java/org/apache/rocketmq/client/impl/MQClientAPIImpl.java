@@ -1062,6 +1062,7 @@ public class MQClientAPIImpl {
         RemotingCommand request = RemotingCommand.createRequestCommand(RequestCode.END_TRANSACTION, requestHeader);
 
         request.setRemark(remark);
+        //事务消息：将request写入channel中，通过socket把消息发送给消费端，后边主要是netty的事儿了
         this.remotingClient.invokeOneway(addr, request, timeoutMillis);
     }
 
