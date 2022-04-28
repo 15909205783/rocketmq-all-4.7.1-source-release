@@ -164,7 +164,7 @@ public abstract class RebalanceImpl {
     }
 
     public void lockAll() {
-        HashMap<String, Set<MessageQueue>> brokerMqs = this.buildProcessQueueTableByBrokerName();
+        HashMap<String, Set<MessageQueue>> brokerMqs = this.buildProcessQueueTableByBrokerName(); // @1
 
         Iterator<Entry<String, Set<MessageQueue>>> it = brokerMqs.entrySet().iterator();
         while (it.hasNext()) {
@@ -175,7 +175,7 @@ public abstract class RebalanceImpl {
             if (mqs.isEmpty())
                 continue;
 
-            FindBrokerResult findBrokerResult = this.mQClientFactory.findBrokerAddressInSubscribe(brokerName, MixAll.MASTER_ID, true);
+            FindBrokerResult findBrokerResult = this.mQClientFactory.findBrokerAddressInSubscribe(brokerName, MixAll.MASTER_ID, true); // @2
             if (findBrokerResult != null) {
                 LockBatchRequestBody requestBody = new LockBatchRequestBody();
                 requestBody.setConsumerGroup(this.consumerGroup);
@@ -184,9 +184,9 @@ public abstract class RebalanceImpl {
 
                 try {
                     Set<MessageQueue> lockOKMQSet =
-                        this.mQClientFactory.getMQClientAPIImpl().lockBatchMQ(findBrokerResult.getBrokerAddr(), requestBody, 1000);
+                        this.mQClientFactory.getMQClientAPIImpl().lockBatchMQ(findBrokerResult.getBrokerAddr(), requestBody, 1000);  // @3
 
-                    for (MessageQueue mq : lockOKMQSet) {
+                    for (MessageQueue mq : lockOKMQSet) { // @4
                         ProcessQueue processQueue = this.processQueueTable.get(mq);
                         if (processQueue != null) {
                             if (!processQueue.isLocked()) {
@@ -197,7 +197,7 @@ public abstract class RebalanceImpl {
                             processQueue.setLastLockTimestamp(System.currentTimeMillis());
                         }
                     }
-                    for (MessageQueue mq : mqs) {
+                    for (MessageQueue mq : mqs) {   // @5
                         if (!lockOKMQSet.contains(mq)) {
                             ProcessQueue processQueue = this.processQueueTable.get(mq);
                             if (processQueue != null) {

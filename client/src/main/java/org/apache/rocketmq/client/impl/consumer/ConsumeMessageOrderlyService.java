@@ -73,6 +73,7 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
 
         this.defaultMQPushConsumer = this.defaultMQPushConsumerImpl.getDefaultMQPushConsumer();
         this.consumerGroup = this.defaultMQPushConsumer.getConsumerGroup();
+        //创建任务拉取队列，注意，这里使用的是无界队列。
         this.consumeRequestQueue = new LinkedBlockingQueue<Runnable>();
 
         this.consumeExecutor = new ThreadPoolExecutor(
@@ -81,8 +82,9 @@ public class ConsumeMessageOrderlyService implements ConsumeMessageService {
             1000 * 60,
             TimeUnit.MILLISECONDS,
             this.consumeRequestQueue,
+            //创建消费者消费线程池，注意由于消息任务队列 consumeRequestQueue 使用的是无界队列，故线程池中最大线程数量取自 consumeThreadMin。
             new ThreadFactoryImpl("ConsumeMessageThread_"));
-
+        //创建调度线程，该线程主要调度定时任务，延迟延迟消费等。
         this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryImpl("ConsumeMessageScheduledThread_"));
     }
 
