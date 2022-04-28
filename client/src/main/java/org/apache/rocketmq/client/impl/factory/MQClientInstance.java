@@ -236,6 +236,11 @@ public class MQClientInstance {
                     // Start various schedule tasks
                     this.startScheduledTask();
                     // Start pull service
+                    //消息消费：5、以线程的方式去拉去消息：
+                    /**
+                     * @see org.apache.rocketmq.client.impl.consumer.PullMessageService.run
+                     */
+
                     this.pullMessageService.start();
                     // Start rebalance service
                     this.rebalanceService.start();
