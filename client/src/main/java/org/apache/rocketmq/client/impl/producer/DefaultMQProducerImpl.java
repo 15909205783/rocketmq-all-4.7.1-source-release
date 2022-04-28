@@ -1235,7 +1235,7 @@ public class DefaultMQProducerImpl implements MQProducerInner {
         MessageAccessor.putProperty(msg, MessageConst.PROPERTY_TRANSACTION_PREPARED, "true");
         MessageAccessor.putProperty(msg, MessageConst.PROPERTY_PRODUCER_GROUP, this.defaultMQProducer.getProducerGroup());
         try {
-            //事务消息/2、 发送half 消息
+            //事务消息：2、 发送half 消息
             sendResult = this.send(msg);
         } catch (Exception e) {
             throw new MQClientException("send message Exception", e);
