@@ -98,7 +98,7 @@ public class SendMessageProcessor extends AbstractSendMessageProcessor implement
                 if (requestHeader.isBatch()) {
                     return this.asyncSendBatchMessage(ctx, request, mqtraceContext, requestHeader);
                 } else {
-                    return this.asyncSendMessage(ctx, request, mqtraceContext, requestHeader);
+8                    return this.asyncSendMessage(ctx, request, mqtraceContext, requestHeader);
                 }
         }
     }

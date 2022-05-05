@@ -1669,7 +1669,7 @@ public class CommitLog {
             // Write messages to the queue buffer
            //消息存储：11、消息追加--写入byteBuffer
             byteBuffer.put(this.msgStoreItemMemory.array(), 0, msgLen);
-            //***消息存储：12、消息追加--写入byteBuffer之后处理wroteOffset
+            //***消息存储：12、消息追加--写入byteBuffer之后处理wroteOffset   将消息写入的内存的位置信息、写入耗时封装为AppendMessageResult对象返回
             AppendMessageResult result = new AppendMessageResult(AppendMessageStatus.PUT_OK, wroteOffset, msgLen, msgId,
                 msgInner.getStoreTimestamp(), queueOffset, CommitLog.this.defaultMessageStore.now() - beginTimeMills);
 

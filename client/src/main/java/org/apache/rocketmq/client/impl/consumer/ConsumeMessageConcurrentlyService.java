@@ -309,8 +309,10 @@ public class ConsumeMessageConcurrentlyService implements ConsumeMessageService 
             default:
                 break;
         }
-
+        // 在msgTreeMap中删除msg，标记当前消息已被消费，msgTreeMap不为空返回当前msgTreeMap中最小的offset
         long offset = consumeRequest.getProcessQueue().removeMessage(consumeRequest.getMsgs());
+        // 更新offsetTable中的消费位移，offsetTable记录每个messageQueue的消费进度
+        // updateOffset()的最后一个参数increaseOnly为true，表示单调增加，新值要大于旧值
         if (offset >= 0 && !consumeRequest.getProcessQueue().isDropped()) {
             //更新offsetTable
             this.defaultMQPushConsumerImpl.getOffsetStore().updateOffset(consumeRequest.getMessageQueue(), offset, true);
