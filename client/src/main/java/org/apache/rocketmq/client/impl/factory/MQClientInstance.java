@@ -234,6 +234,7 @@ public class MQClientInstance {
                     // Start request-response channel
                     this.mQClientAPIImpl.start();
                     // Start various schedule tasks
+                    //启动定时任务
                     this.startScheduledTask();
                     // Start pull service
                     //消息消费：5、以线程的方式去拉去消息：

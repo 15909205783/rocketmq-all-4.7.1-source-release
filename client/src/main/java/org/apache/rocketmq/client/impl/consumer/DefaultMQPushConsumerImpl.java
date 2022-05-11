@@ -211,6 +211,7 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
     }
 
     public void pullMessage(final PullRequest pullRequest) {
+        //消息消费：拉取队列
         final ProcessQueue processQueue = pullRequest.getProcessQueue();
         if (processQueue.isDropped()) {
             log.info("the pull request[{}] is dropped.", pullRequest.toString());
@@ -439,11 +440,14 @@ public class DefaultMQPushConsumerImpl implements MQConsumerInner {
         );
         try {
             this.pullAPIWrapper.pullKernelImpl(
+                    /*消费的队列*/
                 pullRequest.getMessageQueue(),
                 subExpression,
                 subscriptionData.getExpressionType(),
                 subscriptionData.getSubVersion(),
+                //下次拉取的偏移量
                 pullRequest.getNextOffset(),
+                //消息拉取的大小
                 this.defaultMQPushConsumer.getPullBatchSize(),
                 sysFlag,
                 commitOffsetValue,
