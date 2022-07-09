@@ -204,6 +204,7 @@ public class MappedFileQueue {
         }
 
         if (createOffset != -1 && needCreate) {
+            //创建mappedFile：新建一个mappedFile命名方式为，上一个mappedFile的起始offset加上mappedFile的大小
             String nextFilePath = this.storePath + File.separator + UtilAll.offset2FileName(createOffset);
             String nextNextFilePath = this.storePath + File.separator
                 + UtilAll.offset2FileName(createOffset + this.mappedFileSize);
